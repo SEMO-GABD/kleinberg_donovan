@@ -13,3 +13,8 @@ This meme represents everything I love about **memes**. Pure *absurdism* and *su
 2. Theodore Roosevelt
 3. Franklin D. Roosevelt
 ----
+| **Cities      | **Country**   | **Year-Founded**|
+| ------------- |:-------------:| -----:|
+| Rome          | Italy         | 753 BC|
+| Berlin        | Germany       | 1237 AD|
+| London        | England       | 50 AD|
