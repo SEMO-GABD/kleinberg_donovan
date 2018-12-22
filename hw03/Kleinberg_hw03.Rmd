@@ -34,4 +34,14 @@ ansc <-
 ```{r}
 ansc
 ```
+```{r}
+ansc %>%
+  group_by(dataset) %>%
+  summarise(
+    mean_x = mean(x),
+    stdev_x = sd(x),
+    mean_y = mean(y),
+    stdev_y = sd(y)
+  )
+```
 
