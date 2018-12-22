@@ -9,7 +9,6 @@
 ```{r}
 library(tidyverse)
 library(xtable)
-library(knitr)
 ```
 
 ```{r}
@@ -44,4 +43,60 @@ ansc %>%
     stdev_y = sd(y)
   )
 ```
+```{r}
+ansc %>% ggplot(aes(x, y, color = dataset)) +
+  geom_point() +
+  facet_wrap(~dataset, ncol = 2)
+```
+```{r}
+head(iris)
+```
 
+```{r}
+kable(head(iris), 
+      align = c("l", "c", "r", "c", "l"),
+      col.names = c("Sepal Length", "Sepal Width", "Sepal Length", "Sepal Width", "Species"))
+```
+
+```{r}
+head(airquality)
+```
+
+```{r}
+kable(head(airquality),
+      align = c("r", "r", "c", "c", "l", "l"),
+      col.names = c("Ozone (ppb)", "Solar R (lang)", "Wind (mph)", "Temp (°F)", "Month", "Day"))
+```
+
+```{r}
+head(chickwts)
+```
+
+```{r}
+chicks_lm <- lm(weight ~ feed, data = chickwts)
+summary(chicks_lm)
+```
+
+```{r}
+kable(chickwts)
+```
+A very long 2 column list is printed out. The first column is the weight, the second column is type of feed.
+
+```{r}
+xtable(chicks_lm) %>% kable()
+```
+
+```{r}
+trees_lm <- lm(Girth ~ Height, data = trees)
+summary(trees_lm)
+```
+
+```{r}
+kable(trees)
+```
+
+```{r}
+xtable(trees_lm) %>% kable()
+```
+
+\[p + \frac{1}{2}pV^2 + pgh = constant\]
