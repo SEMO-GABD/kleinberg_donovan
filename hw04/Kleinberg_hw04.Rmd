@@ -31,32 +31,32 @@ Enter your code chunks for Section 3.2 here.
 
 Get in the habit of entering a brief description of what each chunk of code does. Enter this above the chunk, like I did in Section 3.1.
 
-Answer for question 1: A table with car manufacturers, models and relevant engine data is displayed.
+The chunk displays a table of mpg data.
 
 ```{r}
 ggplot2::mpg
 ```
 
-Answer for question 2: 234 rows, 11 columns. Chunk displays dimensions of the plot.
+Chunk displays dimensions of the plot.
 
 ```{r}
 dim(mpg)
 ```
 
-Answer for question 3: drv describes whether a car is forward, rear or all wheel drive. Descriptions of variables for mpg are shown.
+Descriptions of variables for mpg are shown.
 
 ```{r}
 ?mpg
 ```
 
-Answer for question 4: Chunk shows a plot of hwy vs cyl.
+Chunk shows a plot of hwy vs cyl.
 
 ```{r}
 ggplot(data = mpg) + 
   geom_point(mapping = aes(x = hwy, y = cyl))
 ```
 
-Answer for question 5: This plot doesn't give anything really useful for statistical comparison. Chunk shows a plot of class vs drv.
+Chunk shows a plot of class vs drv.
 
 ```{r}
 ggplot(data = mpg) + 
@@ -75,27 +75,23 @@ ggplot(data = mpg) +
 Answer the questions *completely.* Some answers will require you to write code in a code chunk and also to type text before or after the chunk. Other answers will require only code or only text. 
 
 **1:** Run ggplot(data = mpg). What do you see?
-
+Answer for question 1: A table with car manufacturers, models and relevant engine data is displayed.
 
 **2:** How many rows are in `mpg`? How many columns? **Hint:** Use the `dim()` function. Type `dim()` in the console to learn what `dim()` does.
-
+Answer for question 2: 234 rows, 11 columns.
 
 **3:** What does the `drv` variable describe? Read the help for `?mpg` to find out.
-
+Answer for question 3: drv describes whether a car is forward, rear or all wheel drive.
 
 **4:** Make a scatterplot of `hwy` vs `cyl`.
-
+Answer for question 4: Scatterplot made.
 
 **5:** What happens if you make a scatterplot of `class` vs `drv`? Why is the plot not useful?
-
+Answer for question 5: This plot doesn't give anything really useful for statistical comparison.
 
 ### Section 3.3: Aesthetic mappings
 
-Answer for question 1: In order to make all points blue without tying them to a variable the code should be in a parentheses outside of aes ().
-
-Answer for question 2: displ, cty and hwy are continuous variables. model, year, cyl, trans, fl and class are catergorical.
-
-Answer for question 3: The shape map will not work with continuous variables as shapes are badly suited to show changes on a gradient. Chunk shows various plots modelled with different colors, sizes and shapes.
+Chunk has various plots.
 
 ```{r}
 ggplot(data = mpg) +
@@ -108,14 +104,14 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x = cyl, y = cty, shape = cty))
 ```
 
-Answer to question 4: Assuming the map works with continuous variables the two combine on the plot. Chunk shows a combo of color and shape plotting cyl vs hwy.
+Chunk shows a combo of color and shape plotting cyl vs hwy.
 
 ```{r}
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = cyl, y = hwy, size = hwy, color = hwy))
 ```
 
-Answer for question 5: Stroke controls how thick the borders of a filled shape are. Chunk describes functions of aesthetics and plots a graph with a thick stroke.
+Chunk describes functions of aesthetics and plots a graph with a thick stroke.
 
 ```{r}
 ?geom_point
@@ -124,7 +120,7 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x = trans, y = hwy, stroke = hwy))
 ```
 
-Answer for question 6: The graph will have color assigned on a true/false basis of the qualifying factor. Chunk prints out a table of class vs. drv with a true/false color assignment based on cyl >5.
+Chunk prints out a table of class vs. drv with a true/false color assignment based on cyl >5.
 
 ```{r}
 ggplot(data = mpg) +
@@ -157,36 +153,35 @@ ggplot(data = mpg) +
 #### Section 3.3 questions
 
 **1:** What's gone wrong with this code? Why are the points not blue?
-
+Answer for question 1: In order to make all points blue without tying them to a variable the code should be in a parentheses outside of aes ().
 
 **2:** Which variables in `mpg` are categorical? Which variables are continuous? (*Hint:* type `?mpg` to read the documentation for the dataset). How can you see this information when you run mpg?
-
+Answer for question 2: displ, cty and hwy are continuous variables. model, year, cyl, trans, fl and class are catergorical.
 
 **3:** Map a continuous variable to color, size, and shape. How do these aesthetics behave differently for categorical vs. continuous variables? **Note:** You need several code chunks here to answer this question.
-
+Answer for question 3: The shape map will not work with continuous variables as shapes are badly suited to show changes on a gradient. Chunk shows various plots modelled with different colors, sizes and shapes.
 
 **4:** What happens if you map the same variable to multiple aesthetics?
-
+Answer to question 4: Assuming the map works with continuous variables the two combine on the plot. 
 
 **5:** What does the stroke aesthetic do? What shapes does it work with? (*Hint:* use `?geom_point`)
-
+Answer for question 5: Stroke controls how thick the borders of a filled shape are. 
 
 
 **6:** What happens if you map an aesthetic to something other than a variable name, like `aes(colour = displ < 5)`?
-
+Answer for question 6: The graph will have color assigned on a true/false basis of the qualifying factor. 
 
 ### Section 3.5: Facets
 
-Answer for question 1: I predict that I will receive an error message saying that facetting doesn't apply to continuous variables.
+Chunk used for 1. prediction.
+
 ```{r}
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = cty)) +
   facet_wrap(~ hwy, nrow = 2)
 ```
 
-Answer for question 2: The empty cells show that there are no data points within that type of wrap. For example there are no data points collected using a 4 cyl, r drive car and as such that rid is left empty. 
-
-Answer for question 3: The chunk displays plots of displ vs hwy. The . replaces a variable and allows the code to only facet on one dimension, either x or y with the other dimension represented by . not being faceted. 
+ Chunk has several plots illustrating the "." being used
 
 ```{r}
 ggplot(data = mpg) + 
@@ -198,15 +193,11 @@ ggplot(data = mpg) +
   facet_grid(. ~ cyl)
 ```
 
-Answer for question 4: Faceting allows for catergorical data to be viewed separately and helps reduce clutter while simply using a color aesthetic can result in data being very crowded. Colored datasets can help provide a larger picture however, while faceting splits data up. As data becomes larger I believe faceting becomes more important to help pull out data from a large and cluttered sample size.
-
-Answer for question 5: nrows and ncols sets the number of rows and columns in the plot. Other options are drop, dir, strip.position, labeller and as.table. facet_grid has facets for more than one variable which prevents manual setting of ncol or nrow. This chunk brings up the functions of facet_wrap.
+This chunk brings up the functions of facet_wrap.
 
 ```{r}
 ?facet_wrap
 ```
-
-Answer for question 6: It will make the data less jumbled and easier to read.
 
 Example 1: This chunk is a facet_grid of drv vs cyl.
 ```{r}
@@ -219,67 +210,125 @@ ggplot(data = mpg) +
 #### Section 3.5 questions
 
 **1:** What happens if you facet on a continuous variable? **Note:** Write a prediction, then make and run your code chunk.
-
+Answer for question 1: I predict that I will receive an error message saying that facetting doesn't apply to continuous variables.
 
 
 **2:** What do the empty cells in plot with `facet_grid(drv ~ cyl)` mean? How do they relate to this plot?
-
+Answer for question 2: The empty cells show that there are no data points within that type of wrap. For example there are no data points collected using a 4 cyl, r drive car and as such that grid is left empty.
 
 
 **3:** What plots does the following code make? What does `.` do?
-
+Answer for question 3: The chunk displays plots of displ vs hwy. The . replaces a variable and allows the code to only facet on one dimension, either x or y with the other dimension represented by . not being faceted. 
 
 
 **4:** Take the first faceted plot below. What are the advantages to using faceting instead of the colour aesthetic? What are the disadvantages? How might the balance change if you had a larger dataset?
-
+Answer for question 4: Faceting allows for catergorical data to be viewed separately and helps reduce clutter while simply using a color aesthetic can result in data being very crowded. Colored datasets can help provide a larger picture however, while faceting splits data up. As data becomes larger I believe faceting becomes more important to help pull out data from a large and cluttered sample size.
 
 
 **5:** Read `?facet_wrap`. What does `nrow` do? What does `ncol` do? What other options control the layout of the individual panels? Why doesn?ft `facet_grid()` have nrow and ncol argument?
-
+Answer for question 5: nrows and ncols sets the number of rows and columns in the plot. Other options are drop, dir, strip.position, labeller and as.table. facet_grid has facets for more than one variable which prevents manual setting of ncol or nrow. 
 
 **6:** When using `facet_grid()` you should usually put the variable with more unique levels in the columns. Why?
+Answer for question 6: It will make the data less jumbled and easier to read.
 
 ### Section 3.6: Geometric objects
 
+Chunk used for 2. predictions.
 
+```{r}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) + 
+  geom_point() + 
+  geom_smooth(se = FALSE)
+```
+
+Chunk shows comparison for 5.
+
+```{r}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_point() + 
+  geom_smooth()
+
+ggplot() + 
+  geom_point(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_smooth(data = mpg, mapping = aes(x = displ, y = hwy))
+```
 
 #### Section 3.6.1 Questions
 
 **1:** What geom would you use to draw a line chart? A boxplot? A histogram? An area chart? **Note:** You will have to make some types of these charts in Part 2 of this assignment.
+Answer for question 1: I'd use geom_line for a linechart, geom_boxplot for a boxplot, geom_histogram for a histogram and geom_area for an area chart.
 
 
 **2:** Run this code in your head and predict what the output will look like. Then, run the code in R and check your predictions.
-
+Answer for question 2: A plot of displ vs hwy will be shown broken into drv which will each be different colors. There will be points and a line for each with no standard error. My predictions were very close, the only major difference was that the line served to show the median of the values.
 
 
 **3:** What does `show.legend = FALSE` do? What happens if you remove it?
 **Note:** Skip the "Why do you think I used it earlier in the chapter?" question.
-
+Answer for question 3: Show.legend = false removes the legend from a plot or graph. When used the legend is removed leaving just the plot or graph.
 
 **4:** What does the `se` argument to `geom_smooth()` do?
-
+Answer for question 4: The se argument determines whether or not a shaded area that represents the standard error of deviation for the data is shown on the graph.
 
 **5:** Will these two graphs look different? Why/why not?
-
+Answer for question 5: I do think they will be the same, the graphs use the same arguments but the first one is more condensed.
 
 **6:** Recreate the R code necessary to generate the following graphs. **Note:** Enter a separate code chunk for each graph, numbered 1 to 6, starting row-wise at upper left. 
 
 1: upper left.
 
+```{r}
+### 1.
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
+  geom_point(size = 2) +
+  geom_smooth(size = 2, se = FALSE)
+
+```
 
 2: upper right.
+
+```{r}
+ggplot(data = mpg,mapping = aes(x = displ, y = hwy)) + 
+  geom_smooth(mapping = aes(group = drv, size = 2), se = FALSE, show.legend = FALSE) +
+  geom_point(size = 2)
+```
+
 
 
 3: middle left.
 
+```{r}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
+  geom_smooth(mapping = aes(color = drv), show.legend = TRUE, se = FALSE) +
+  geom_point(mapping = aes(color = drv), show.legend = TRUE)
+```
 
 4: middle right.
+
+```{r}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
+  geom_smooth(show.legend = FALSE, se = FALSE) +
+  geom_point(mapping = aes(color = drv), show.legend = TRUE)
+```
 
 
 5: lower left.
 
+```{r}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
+  geom_smooth(mapping = aes(group = drv, linetype = drv), show.legend = TRUE, se = FALSE) +
+  geom_point(mapping = aes(color = drv), show.legend = TRUE)
+```
+
 
 6: lower right. *Hint:* Read the help file for `geom_point`. Use `shape = 21`, `stroke = 2`, and `size = 3`.
+
+```{r}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
+  geom_point(mapping = aes(size = 5), show.legend = FALSE, color = "white") +
+  geom_point(mapping = aes(color = drv), show.legend = TRUE)
+```
 
 ### Section 3.7: Statistical transformations.
 
@@ -288,19 +337,42 @@ ggplot(data = mpg) +
 
 ### Section 3.8 Position adjustments
 
+This chunk has improved code for 1.
+
+```{r}
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_point(mapping = aes(), position = "jitter")
+```
+
+Chunk is visualization for 4.
+
+```{r}
+### Default plot
+ggplot(data = mpg, mapping = aes(x = drv, y = hwy)) +
+  geom_boxplot()
+
+### Plot that looks the same with dodge as position
+ggplot(data = mpg, mapping = aes(x = drv, y = hwy)) +
+  geom_boxplot(position = "dodge")
+```
+
+### Plot showing that not using dodge, which is default, for boxplots is bad
+... 
 
 #### Section 3.8 Questions
 
 **1:** What is the problem with this plot? How could you improve it. *Hint:* Remember the size of the `mpg` data set from earlier in this exercise. Does the number of points seem correct? **Note:** Write the code to improve it. 
-
+Answer for question 1: The plot has too much data on it to show all the data points. Adding jitter will allow for the data to be seen.
 
 **2:** What parameters to `geom_jitter()` control the amount of jittering?
+Answer for question 2: The parameters width and height control the jitter.
+
+**3:** Compare and contrast `geom_jitter()` with `geom_count()`.
+Answer for question 3: Both are used to help plots deal with overplotting. geom_jitter adds a set amount of randomness to the data to display them all while geom_count counts the number of observations and carefully plots them in a certain area.
 
 
-**3:** Compare and contracts `geom_jitter()` with `geom_count()`.
-
-
-**4:** What is the default position adjustement for `geom_boxplot()`? Create a visualization of the `mpg` dataset that demonstrates it.
+**4:** What is the default position adjustment for `geom_boxplot()`? Create a visualization of the `mpg` dataset that demonstrates it.
+Answer for question 4: Position = dodge is default for geom_boxplots.
 
 
 ### Section 3.9: Coordinate systems
