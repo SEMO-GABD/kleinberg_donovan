@@ -177,6 +177,43 @@ ggplot(data = mpg) +
 
 ### Section 3.5: Facets
 
+Answer for question 1: I predict that I will receive an error message saying that facetting doesn't apply to continuous variables.
+```{r}
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = cty)) +
+  facet_wrap(~ hwy, nrow = 2)
+```
+
+Answer for question 2: The empty cells show that there are no data points within that type of wrap. For example there are no data points collected using a 4 cyl, r drive car and as such that rid is left empty. 
+
+Answer for question 3: The chunk displays plots of displ vs hwy. The . replaces a variable and allows the code to only facet on one dimension, either x or y with the other dimension represented by . not being faceted. 
+
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_grid(drv ~ .)
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_grid(. ~ cyl)
+```
+
+Answer for question 4: Faceting allows for catergorical data to be viewed separately and helps reduce clutter while simply using a color aesthetic can result in data being very crowded. Colored datasets can help provide a larger picture however, while faceting splits data up. As data becomes larger I believe faceting becomes more important to help pull out data from a large and cluttered sample size.
+
+Answer for question 5: nrows and ncols sets the number of rows and columns in the plot. Other options are drop, dir, strip.position, labeller and as.table. facet_grid has facets for more than one variable which prevents manual setting of ncol or nrow. This chunk brings up the functions of facet_wrap.
+
+```{r}
+?facet_wrap
+```
+
+Answer for question 6: It will make the data less jumbled and easier to read.
+
+Example 1: This chunk is a facet_grid of drv vs cyl.
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) + 
+  facet_grid(drv ~ cyl)
+```
 
 
 #### Section 3.5 questions
