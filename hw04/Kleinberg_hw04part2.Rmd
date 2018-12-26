@@ -54,4 +54,38 @@ ggplot(data = iris, mapping = aes(x = Petal.Length, y = Petal.Width)) +
 
 Comments for plot 3: Overall there seems to  be a very strong correlation between increasing petal length and increasing petal width. There is also an interesting gap at around the 3 mark for petal length, perhaps a peculiarity of iris plants?
 
-Data for 4.
+Data for 4 and 5.
+
+```{r}
+msleep
+?msleep
+```
+
+Plots
+
+```{r}
+### Plot 4
+ggplot(data = msleep) +
+  geom_violin(mapping = aes(x = vore, y =sleep_rem), fill = "gray30")
+
+### Plot 5
+ggplot(data = msleep) +
+  geom_violin(mapping = aes(x = vore, y =sleep_rem), fill = "gray70")
+```
+
+Comments for plots 4 and 5: Violin plots show the distribution of data as a shape of varying thickness with thicker portions being where more data is located at. Gray 30 was much darker than Gray 70.
+
+Data for plot 7.
+
+```{r}
+### Plot 7
+ggplot(data = msleep, mapping = aes(x = order, y = sleep_total)) +
+  geom_boxplot() +
+  coord_flip()
+
+```
+
+Comments for plot 7: It appears that some orders of species have much higher variation in the amount of sleep they have compared to other species which have practically no variation.
+
+Data for plot 8.
+
