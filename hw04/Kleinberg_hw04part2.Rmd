@@ -22,8 +22,36 @@ ggplot(data = trees, mapping = aes(x = 	Height, y = Girth)) +
 geom_point()
 ```
 
-Comments for Plot 1. It appears that as height increases girth increases as well.
+Comments for Plot 1: It appears that there is a slight correlation that as height increases girth increases as well.
+
+Data for 2.
 
 ```{r}
+data(lynx)
+?lynx
 
+### Plot 2
+year <- (1821:1934)
+pelts <- as.vector(lynx)
+lynx_pelts <- data.frame(year, pelts)
+ggplot(data = lynx_pelts, mapping = aes(x = year, y = pelts)) +
+  geom_line(color = "maroon")
 ```
+
+Comments for Plot 2: There are peaks every 5 years or so with massive peaks every 20 years. If I remember correctly early explanations offered for these peaks in lynx were crazy things like sunspot cycles and the like.
+
+Data for 3.
+
+```{r}
+data(iris)
+?iris
+
+### Plot 3
+ggplot(data = iris, mapping = aes(x = Petal.Length, y = Petal.Width)) +
+  geom_point(mapping = aes(color = "Species", shape = "Species", size = 2)) +
+  xlab("Petal Length") + ylab("Petal Width")
+```
+
+Comments for plot 3: Overall there seems to  be a very strong correlation between increasing petal length and increasing petal width. There is also an interesting gap at around the 3 mark for petal length, perhaps a peculiarity of iris plants?
+
+Data for 4.
