@@ -24,7 +24,7 @@ A good example of a categorical variable is sex. In many circumstances you can l
 
 ```{r}
 # Assign to the variable theory what this chapter is about!
-
+theory <- "factors for categorical variables"
 
 #
 ```
@@ -61,10 +61,10 @@ factor_sex_vector <- factor(sex_vector)
 sex_vector <- c("Male", "Female", "Female", "Male", "Male")
 
 # Convert sex_vector to a factor
-
+factor_sex_vector <- factor(sex_vector)
 
 # Print out factor_sex_vector
-
+factor_sex_vector
 
 #
 ```
@@ -172,10 +172,10 @@ factor_survey_vector <- factor(survey_vector)
 levels(factor_survey_vector) <- c("Female", "Male")
 
 # Generate summary for survey_vector
-
+summary(survey_vector)
 
 # Generate summary for factor_survey_vector
-
+summary(factor_survey_vector)
 
 #
 ```
@@ -239,7 +239,7 @@ No need to specify these are factors yet.
 
 ```{r}
 # Create speed_vector
-
+speed_vector <- c("medium", "slow", "slow", "medium", "fast")
 
 #
 ```
@@ -272,11 +272,11 @@ By setting the argument `ordered` to `TRUE` in the function `factor()`, you indi
 speed_vector <- c("medium", "slow", "slow", "medium", "fast")
 
 # Convert speed_vector to ordered factor vector
-
+factor_speed_vector <- factor(speed_vector, ordered = TRUE, levels = c("slow", "medium", "fast"))
 
 # Print and summarize factor_speed_vector
-
-
+factor_speed_vector
+summary(factor_speed_vector)
 #
 ```
 
@@ -312,13 +312,13 @@ speed_vector <- c("medium", "slow", "slow", "medium", "fast")
 factor_speed_vector <- factor(speed_vector, ordered = TRUE, levels = c("slow", "medium", "fast"))
 
 # Factor value for second data analyst
-
+da2 <- factor_speed_vector[2]
 
 # Factor value for fifth data analyst
-
+da5 <- factor_speed_vector[5]
 
 # Is data analyst 2 faster than data analyst 5?
-
+2 > 5
 
 #
 ```
