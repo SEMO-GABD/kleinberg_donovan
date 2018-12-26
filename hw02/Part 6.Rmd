@@ -27,7 +27,7 @@ my_matrix <- matrix(1:9, ncol = 3)
 my_df <- mtcars[1:10,]
 
 # Construct list with these different elements:
-
+my_list <- "my_vector, my_matrix, my_df"
 
 #
 ```
@@ -53,9 +53,10 @@ my_df <- mtcars[1:10,]
 
 # Adapt list() call to give the components names
 my_list <- list(my_vector, my_matrix, my_df)
+names(my_list) <- c("vec", "mat", "df")
 
 # Print out my_list
-
+my_list
 
 #
 ```
@@ -90,8 +91,8 @@ comments <- c("Best Horror Film I Have Ever Seen",
 rev <- data.frame(scores, sources, comments)
 
 # Finish the code to build shining_list
-
-
+shining_list <- list(mov, act, rev)
+names(shining_list) <- c("movies", "actors", "reviews")
 #
 ```
 
@@ -107,10 +108,10 @@ rev <- data.frame(scores, sources, comments)
 # shining_list is already pre-loaded in the workspace
 
 # Print out the vector representing the actors
-
+shining_list["actors"]
 
 # Print the second element of the vector representing the actors
-
+shining_list[[2]][2]
 
 #
 ```
@@ -128,10 +129,10 @@ rev <- data.frame(scores, sources, comments)
 # shining_list, the list containing movie name, actors and reviews, is pre-loaded in the workspace
 
 # We forgot something; add the year to shining_list
-
+shining_list_full <- c(shining_list, year = 1980)
 
 # Have a look at shining_list_full
-
+str(shining_list_full)
 
 #
 ```
