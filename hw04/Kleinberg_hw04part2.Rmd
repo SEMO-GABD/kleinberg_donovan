@@ -1,0 +1,29 @@
+---
+title: "HW04 Part 2: Complete Chapter 3"
+author: "Donovan Kleinberg"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output: html_notebook
+editor_options: 
+  chunk_output_type: inline
+---
+
+```{r}
+library(tidyverse)
+```
+
+Data for 1.
+
+```{r}
+data(trees)
+?trees
+
+### Plot 1
+ggplot(data = trees, mapping = aes(x = 	Height, y = Girth)) +
+geom_point()
+```
+
+Comments for Plot 1. It appears that as height increases girth increases as well.
+
+```{r}
+
+```
