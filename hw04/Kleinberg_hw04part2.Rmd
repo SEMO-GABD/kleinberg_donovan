@@ -89,3 +89,24 @@ Comments for plot 7: It appears that some orders of species have much higher var
 
 Data for plot 8.
 
+```{r}
+ggplot(data = msleep, mapping = aes(x = conservation, y = awake)) +
+  geom_boxplot(mapping = aes(color = conservation)) +
+  geom_point(mapping = aes(color = conservation)) +
+  geom_jitter(mapping = aes(color = conservation)) +
+  xlab("Conservation") + ylab("Awake") +
+  scale_color_discrete(name = "Conservation")
+```
+
+Comments for plot 8: It seems like there is great variation among conservation types in their periods of being awake.
+
+Data for plots 9 and 10.
+
+```{r}
+ggplot(data = msleep, mapping = aes(x =sleep_cycle, y = bodywt)) +
+  geom_point()
+```
+
+
+
+
