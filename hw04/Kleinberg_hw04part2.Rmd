@@ -103,10 +103,16 @@ Comments for plot 8: It seems like there is great variation among conservation t
 Data for plots 9 and 10.
 
 ```{r}
-ggplot(data = msleep, mapping = aes(x =sleep_cycle, y = bodywt)) +
-  geom_point()
+### Plot 9
+ggplot(data = msleep, mapping = aes(x = sleep_total, y = bodywt)) +
+  geom_point(mapping = aes(color = awake))
+
+### Plot 10
+ggplot(data = msleep, mapping = aes(x = sleep_rem, y = brainwt)) +
+  geom_point(mapping = aes(color = sleep_total)) +
+  facet_wrap(~vore, ncol = 2)
 ```
 
+Comments on plot 9: As body weight increases the amount of total sleep appears to be much less.
 
-
-
+Comments on plot 10: Herbi seem to have higher sleep_rem, and all vores tend to have less rem at higher body weights.
