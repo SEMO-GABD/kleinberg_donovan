@@ -235,6 +235,7 @@ read_csv("a,b\n\"1")
 read_csv("a,b\n1,2\na,b")
 read_csv("a;b\n1;3")
 ```
+
 Answer for question 5:
 1. The data has 3 columns worth of data, but only specifies 2 columns in the header. As such, the last column of data is dropped.
 2. There are 3 columns which do not match the amount of data, the first row is listed as missing an entry and the second row has a entry dropped.
@@ -276,13 +277,44 @@ You do not have to run any of the examples in this section.
 
 Read and run the examples through section 12.3.1 (gathering), including the example with `left_join()`. We'll cover joins later.
 
+Example 1:
+
+```{r}
+table4a %>%
+  gather(`1999`, `2000`, key = "year", value = "cases")
+```
+
+Example 1 gathers 1999 and 2000 into a proper column and tidys the data.
+
+Example 2:
+
+```{r}
+table4b %>% 
+  gather(`1999`, `2000`, key = "year", value = "population")
+```
+
+Example 2 does the same thing as 1 to a different data set.
+
+Example 3:
+
+```{r}
+tidy4a <- table4a %>% 
+  gather(`1999`, `2000`, key = "year", value = "cases")
+tidy4b <- table4b %>% 
+  gather(`1999`, `2000`, key = "year", value = "population")
+dplyr::left_join(tidy4a, tidy4b)
+```
+
+
+
 #### 12.3 Questions
 
 **2:** Why does this code fail? Fix it so it works.
+Answer to question 2: Lack of back ticks around the year entries.
 
 ```{r}
 table4a %>% 
-  gather(1999, 2000, key = "year", value = "cases")
+  gather(`1999`, `2000`, key = "year", value = "cases")
 #> Error in inds_combine(.vars, ind_list): Position must be between 0 and n
 ```
 
