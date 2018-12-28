@@ -154,24 +154,74 @@ Do *not* run the first code chunk of this section, which begins with `heights <-
 
 Enter and run the remaining chunks in this section.
 
+Example 1:
+
+```{r}
+read_csv("a,b,c
+         1,2,3
+         4,5,6")
+
+```
+
+Example 1 plots a chart with column names taken from the first line.
+
+Example 2:
+
+```{r}
+read_csv("The first line of metadata
+  The second line of metadata
+  x,y,z
+  1,2,3", skip = 2)
+
+read_csv("# A comment I want to skip
+  x,y,z
+  1,2,3", comment = "#")
+```
+
+Example 2 shows the use of the skip command or "#" to skip a set number of lines so you can exclude potentially unwanted metadata.
+
+Example 3:
+
+```{r}
+read_csv("1,2,3\n4,5,6", col_names = FALSE)
+```
+
+Example 3 lets read_csv that the data doesn't have column names.
+
+Example 4:
+
+```{r}
+read_csv("1,2,3\n4,5,6", col_names = c("x", "y", "z"))
+```
+
+Example 4 assigns names to the columns.
+
+Example 5:
+
+```{r}
+read_csv("a,b,c\n1,2,.", na = ".")
+```
+
+Example 5 shows how the na commmand can replace missing data points.
+
 
 #### 11.2 Questions
 
 **1:** What function would you use to read a file where fields were separated with "|"?
-
+Answer for question 1: read_delim would be the function used.
 
 
 **2:** (This question is modified from the text.) Finish the two lines of `read_delim` code so that the first one would read a comma-separated file and the second would read a tab-separated file. You only need to worry about the delimiter. Do not worry about other arguments. Replace the dots in each line with the rest of your code. 
 
 # Comma-separated
-`file <- read_delim("file.csv", ...)`
+`file <- read_delim("file.csv", delim = ",")`
 
 # Tab-separated
-`file <- read_delim("file.csv", ...)`
+`file <- read_delim("file.csv", delim = "\t")`
 
 
 **3:** What are the two most important arguments to `read_fwf()`? Why?
-
+Answer to question 3: col_positions which specifies the column's beginning and end, and col_types which parse out the columns.
 
 **4:** Skip this question
 
@@ -185,6 +235,12 @@ read_csv("a,b\n\"1")
 read_csv("a,b\n1,2\na,b")
 read_csv("a;b\n1;3")
 ```
+Answer for question 5:
+1. The data has 3 columns worth of data, but only specifies 2 columns in the header. As such, the last column of data is dropped.
+2. There are 3 columns which do not match the amount of data, the first row is listed as missing an entry and the second row has a entry dropped.
+3. There are 2 columns but the data only consists of 1 entry, the second column is then listed as empty.
+4. Operates fine but has data that is entered the same as the column names which is confusing.
+5. Data is seperated by ";" so instead of seperating into 2 columns it forms 1 column.
 
 ### 11.3 and 11.4: Not required
 
