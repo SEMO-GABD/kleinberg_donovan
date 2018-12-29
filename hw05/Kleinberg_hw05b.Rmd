@@ -7,7 +7,7 @@ editor_options:
   chunk_output_type: inline
 ---
 
-Limpets 
+## Limpets 
 
 ```{r}
 library(tidyverse)
@@ -40,7 +40,7 @@ ggplot(data = limpet, mapping = aes(x = Site, y = Length)) +
 
 Description for Boxplot: There are 2 sites with outliers, DP and WP. The protected sites all seem to have longer limpets than non protected sites.
 
-Terns
+## Terns
 
 ```{r}
 file_path <- "C:\\Misc. Files\\BI485 Folder\\Kleinberg_Donovan\\data"
@@ -72,3 +72,82 @@ ggplot(data = tidy_tern, mapping = aes(x = year, y = Individuals)) +
 ```
 
 Description for line plot: The site labelled AR has shown an obvious increase in population size, sites BR and JR meanwhile have shown obvious decreases in population size. Gaps in the data symbolize NA data due to no survey during that period.
+
+## Darters
+
+```{r}
+file_path <- "C:\\Misc. Files\\BI485 Folder\\Kleinberg_Donovan\\data"
+darters <- read_csv(file.path(file_path, "darter.txt"))
+darters
+```
+
+Unordered and Ordered Factors
+
+```{r}
+riff <- c("1", "2")
+riffle <- factor(riff)
+major <- c("s", "fg", "sg", "lg", "c")
+major_type <- factor(major, ordered = TRUE, levels = c("s", "fg", "sg", "lg", "c"))
+```
+
+## Abalone
+
+Chunk 1
+
+```{r}
+file_path <- "C:\\Misc. Files\\BI485 Folder\\Kleinberg_Donovan\\data"
+abalone <-  read_csv(file.path(file_path, "abalone.csv"))
+abalone
+abalone_no_first <- abalone[-c(1)]
+abalone_no_first
+
+ggplot(data = abalone_no_first, mapping = aes(x = Type, y = Height)) +
+  geom_boxplot()
+```
+
+Chunk 2
+
+```{r}
+ggplot(data = abalone_no_first, mapping = aes(x = Height, y = Rings)) +
+  geom_point()
+```
+
+Description for chunk 2: It would appear that the outliers are only around 7-10 years old and are not extremely old.
+
+Chunk 3
+
+```{r}
+abalone_error <- filter(abalone_no_first, Height < 0.3)
+abalone_ordered <- abalone_error$Type <- factor(abalone_error$Type, levels = c("I", "F", "M"), ordered = TRUE)
+abalone_ordered
+
+ggplot(data = abalone_error, mapping = aes(x = Rings, y = Height)) +
+  geom_point() +
+  facet_wrap("Type")
+```
+
+Description for chunk 3: Overall males and females are larger than immature abalone for the same number of rings. Overall the females tend to be slightly bigger with neither gender truely becoming totally seperate in size from immature specimens.
+
+Chunk 4
+
+```{r}
+filter(abalone_error, Height == 0)
+abalone_error[abalone_error == 0] <- NA
+
+ggplot(data = abalone_error, mapping = aes(x = Rings, y = Height)) +
+  geom_point() +
+  facet_wrap("Type")
+```
+
+Chunk 5
+
+```{r}
+ggplot(data = abalone_error, mapping = aes(x = Diameter, y = WholeWeight)) +
+  geom_point(mapping = aes(color = Type)) +
+  ylab("Whole Weight")
+
+ggplot(data = abalone_error, mapping = aes(x = LongestShell, y = Rings)) +
+  geom_point(mapping = aes(color = Type, shape = Type)) +
+  xlab("Longest Shell")
+```
+
