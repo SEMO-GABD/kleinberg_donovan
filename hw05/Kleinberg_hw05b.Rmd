@@ -77,8 +77,14 @@ Description for line plot: The site labelled AR has shown an obvious increase in
 
 ```{r}
 file_path <- "C:\\Misc. Files\\BI485 Folder\\Kleinberg_Donovan\\data"
-darters <- read_csv(file.path(file_path, "darter.txt"))
+darters <- read.delim(file.path(file_path, "darter.txt"))
 darters
+
+Column_start <- c(1, 4, 15, 16, 17, 18, 21, 25, 29, 33, 36, 39, 40)
+Column_stop <- c(3, 14, 15, 16, 17, 20, 24, 28, 32, 35, 38, 40, 41)
+names <- c("specimen id", "species", "riffle", "age", "sex", "length", "depth", "velocity", "temperature", "majsub", "minsub", "majtype", "mintype")
+tidy_darters <- read_fwf(file.path(file_path, "darter.txt"), fwf_positions(Column_start, Column_stop, col_names = names), skip = 15)
+tidy_darters
 ```
 
 Unordered and Ordered Factors
@@ -89,6 +95,59 @@ riffle <- factor(riff)
 major <- c("s", "fg", "sg", "lg", "c")
 major_type <- factor(major, ordered = TRUE, levels = c("s", "fg", "sg", "lg", "c"))
 ```
+
+The Pipe
+
+```{r}
+good_darters <- tidy_darters %>%
+  filter(!species %in% c("zonale", "tetrazonum"))
+```
+
+```{r}
+gooder_darters <- subset(good_darters, select = -c(mintype,minsub) )
+gooder_darters
+
+colnames(gooder_darters)[colnames(gooder_darters)=="majsub"] <- "major_substrate"
+colnames(gooder_darters)[colnames(gooder_darters)=="majtype"] <- "major_type"
+gooder_darters
+
+gooder_darters %>% arrange(-desc(`specimen id`))
+```
+
+Plot 1
+
+```{r}
+ggplot(data = gooder_darters, mapping = aes(x = length, y = depth)) + 
+  geom_point(mapping = aes(color = species, shape = species)) +
+  facet_wrap(~ riffle)
+```
+
+Description of plot 1: Riffle one has a higher amount of spectabile and also has fish being found in more shallow water while riffle 2 has more blenniodies, larger fish and fish that stay deeper.
+
+Plot 2
+
+```{r}
+ggplot(data = gooder_darters, mapping = aes(x = species, y = length)) + 
+  geom_boxplot() +
+  facet_wrap(~ riffle)
+
+```
+
+Description of plot 2: Riffle 2 has by far the greater number of outliers. 
+
+Plot 3
+
+```{r}
+ggplot(data = gooder_darters, mapping = aes(x = species, y = length)) + 
+  geom_boxplot() +
+  facet_grid(species ~ riffle)
+
+ggplot(data = gooder_darters, mapping = aes(x = species, y = length)) + 
+  geom_boxplot() +
+  facet_grid(riffle ~ species)
+```
+
+Description of plot 3: Switching species and riffle results in a graph that is less pleasing to read and one that doesn't appear to function properly.
 
 ## Abalone
 
