@@ -7,6 +7,8 @@ editor_options:
   chunk_output_type: inline
 ---
 
+Limpets 
+
 ```{r}
 library(tidyverse)
 file_path <- "C:\\Misc. Files\\BI485 Folder\\Kleinberg_Donovan\\data"
@@ -37,3 +39,36 @@ ggplot(data = limpet, mapping = aes(x = Site, y = Length)) +
 ```
 
 Description for Boxplot: There are 2 sites with outliers, DP and WP. The protected sites all seem to have longer limpets than non protected sites.
+
+Terns
+
+```{r}
+file_path <- "C:\\Misc. Files\\BI485 Folder\\Kleinberg_Donovan\\data"
+tern <- read.delim(file.path(file_path, "roseate_terns.txt"))
+tern
+```
+
+Tidying the data
+
+```{r}
+tidy_tern <- tern %>% 
+  gather("AR", "AL", "AC", "BR", "BL", "BC", "JR", "JL", "JC", key = "Site", value = "Individuals")
+tidy_tern
+```
+
+Filtering out NA data
+
+```{r}
+filter(tidy_tern, is.na(Individuals) == FALSE)
+```
+
+Lineplot of Tern data
+
+```{r}
+ggplot(data = tidy_tern, mapping = aes(x = year, y = Individuals)) +
+  geom_line(mapping = aes(color = Individuals)) +
+  xlab("Year") + ylab("Number of Tern Per Site") +
+    facet_wrap(~ Site, nrow = 3)
+```
+
+Description for line plot: The site labelled AR has shown an obvious increase in population size, sites BR and JR meanwhile have shown obvious decreases in population size. Gaps in the data symbolize NA data due to no survey during that period.
