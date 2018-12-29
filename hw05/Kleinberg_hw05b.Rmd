@@ -1,0 +1,39 @@
+---
+title: "HW05 Part 2: Importing"
+author: "Donovan Kleinberg"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output: html_notebook
+editor_options: 
+  chunk_output_type: inline
+---
+
+```{r}
+library(tidyverse)
+file_path <- "C:\\Misc. Files\\BI485 Folder\\Kleinberg_Donovan\\data"
+limpet <- read_csv(file.path(file_path, "limpets.csv"))
+```
+```{r}
+limpet
+```
+
+Chunk for column identification.
+
+```{r}
+read_csv(file.path(file_path, "limpets.csv"), col_types = c("ncc"))
+```
+
+Chunk for ordering site
+
+```{r}
+Ordered_sites <- factor(limpet, levels = c("PBL", "KNRM", "VBG", "WP", "PF", "DP", "SIO", "CTZ1", "CTZ2", "CNM"), ordered = TRUE)
+```
+
+Chunk for boxplot
+
+```{r}
+ggplot(data = limpet, mapping = aes(x = Site, y = Length)) +
+  geom_boxplot(mapping = aes(color = Protected)) +
+    xlab("Site") + ylab("Length (mm)")
+```
+
+Description for Boxplot: There are 2 sites with outliers, DP and WP. The protected sites all seem to have longer limpets than non protected sites.
