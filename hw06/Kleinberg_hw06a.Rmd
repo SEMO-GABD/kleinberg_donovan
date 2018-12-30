@@ -1,0 +1,118 @@
+---
+title: "HW 06 Part 1: Complete the sections"
+author: "Donovan Kleinberg"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output: html_notebook
+editor_options: 
+  chunk_output_type: inline
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+- Change "your name" in the YAML header above to your name.
+
+- As usual, enter the examples in code chunks and run them, unless told otherwise.
+
+## Chapter 5: Data transformation
+
+Read [R4ds Chapter 5: Data transformation](https://r4ds.had.co.nz/transform.html), sections 5-7.
+
+You do not answer any of the questions this week. Just read and run all of the examples.
+
+### Section 5.5: Add new variables with `mutate()`
+
+Type and run all of the examples.
+
+```{r}
+library(nycflights13)
+library(tidyverse)
+```
+
+
+Example 1:
+
+```{r}
+flights_sml <- select(flights, year:day, ends_with("delay"), distance, air_time)
+
+mutate(flights_sml, gain = dep_delay - arr_delay, speed = distance / air_time * 60)
+```
+
+Description of example 1: Shows the use of the mutate command to add columns gain and speed.
+
+Example 2:
+
+```{r}
+mutate(flights_sml, gain = dep_delay - arr_delay, hours = air_time/60, gain_per_hour = gain / hours)
+```
+
+Description of example 2: Further use of the mutate command with some of the columns previously added.
+
+Example 3:
+
+```{r}
+transmute(flights, gain = dep_delay - arr_delay, hours = air_time / 60, gain_per_hour = gain / hours)
+```
+
+Description of example 3: Use of the transmute command to display only columns that were added.
+
+Example 4:
+
+```{r}
+transmute(flights, dep_time, hour = dep_time %/% 100, minute = dep_time %% 100)
+```
+
+Description of example 4: Use of arithmetic operators to create dep_time.
+
+Example 5:
+
+```{r}
+(x <- 1:10)
+lag(x)
+lead(x)
+```
+
+Description of example 5: Use of the lead and lag commands.
+
+Example 6:
+
+```{r}
+x
+cumsum(x)
+cummean(x)
+```
+
+Description for example 6: Use of the cumsum and cummean commands.
+
+Example 7:
+
+```{r}
+y <- c(1, 2, 2, NA, 3, 4)
+min_rank(y)
+min_rank(desc(y))
+```
+
+Description of example 7: Use of the minrank commands to rank the data.
+
+Example 8:
+
+```{r}
+row_number(y)
+dense_rank(y)
+percent_rank(y)
+cume_dist(y)
+```
+
+Description of example 8: More niche types of ranking commands.
+
+Pay careful attention to the useful creation functions in section 5.5.1. 
+
+### Section 5.6: Grouped summaries with `summarise()`
+
+Read and run all of the examples. Pay careful attention to the useful summary functions. Unless you really like baseball, skip the baseball part of 5.6.3.
+
+### Section 5.7: Grouped mutates (and filters)
+
+Read and run all of the examples.
+
