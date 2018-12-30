@@ -112,6 +112,205 @@ Pay careful attention to the useful creation functions in section 5.5.1.
 
 Read and run all of the examples. Pay careful attention to the useful summary functions. Unless you really like baseball, skip the baseball part of 5.6.3.
 
+Example 1:
+
+
+```{r}
+by_dest <- group_by(flights, dest)
+delay <- summarise(by_dest,
+  count = n(),
+  dist = mean(distance, na.rm = TRUE),
+  delay = mean(arr_delay, na.rm = TRUE))
+
+delay <- filter(delay, count > 20, dest != "HNL")
+
+ggplot(data = delay, mapping = aes(x = dist, y = delay)) +
+  geom_point(aes(size = count), alpha = 1/3) +
+  geom_smooth(se = FALSE)
+```
+
+Description for example 1: Creating a graph to explore the relationship between dist and delay while filtering out noise.
+
+Example 2:
+
+
+```{r}
+delays <- flights %>% 
+  group_by(dest) %>% 
+  summarise(count = n(), dist = mean(distance, na.rm = TRUE), delay = mean(arr_delay, na.rm = TRUE)) %>% 
+  filter(count > 20, dest != "HNL")
+```
+
+Description for example 2: Same as before but using the almighty pipe.
+
+Example 3:
+
+```{r}
+flights %>% 
+  group_by(year, month, day) %>% 
+  summarise(mean = mean(dep_delay))
+```
+
+Description for example 3: Lack of the na.rm argument causes all the data with missing entries to be displayed.
+
+Example 4:
+
+```{r}
+flights %>% 
+  group_by(year, month, day) %>% 
+  summarise(mean = mean(dep_delay, na.rm = TRUE))
+```
+
+Description for example 4: Use of na.rm argument removes the missing data points and observations with them.
+
+Example 5:
+
+```{r}
+not_cancelled <- flights %>% 
+  filter(!is.na(dep_delay), !is.na(arr_delay))
+
+not_cancelled %>% 
+  group_by(year, month, day) %>% 
+  summarise(mean = mean(dep_delay))
+```
+
+Desc. for 5: Creation of some variables for later.
+
+Example 6:
+
+```{r}
+delays <- not_cancelled %>% 
+  group_by(tailnum) %>% 
+  summarise(delay = mean(arr_delay))
+
+ggplot(data = delays, mapping = aes(x = delay)) + 
+  geom_freqpoly(binwidth = 10)
+```
+
+Desc. for 6: Graph  of planes grouped by tail number against their delay times.
+
+Example 7:
+
+```{r}
+delays <- not_cancelled %>% 
+  group_by(tailnum) %>% 
+  summarise(delay = mean(arr_delay, na.rm = TRUE), n = n())
+
+ggplot(data = delays, mapping = aes(x = n, y = delay)) + 
+  geom_point(alpha = 1/10)
+```
+
+Desc. for 7: Sorting against the mean shows that only a few planes have extremely high delay times.
+
+Example 8:
+
+```{r}
+delays %>% 
+  filter(n > 25) %>% 
+  ggplot(mapping = aes(x = n, y = delay)) + 
+    geom_point(alpha = 1/10)
+```
+
+Desc. for 8: Filtering out observations with few numbers to get rid of small influences on the graph.
+
+Example 9:
+
+```{r}
+not_cancelled %>% 
+  group_by(year, month, day) %>% 
+  summarise(
+    avg_delay1 = mean(arr_delay),
+    avg_delay2 = mean(arr_delay[arr_delay > 0])
+  )
+```
+
+Desc. for 9: Calculating some averages of negative and positive delays.
+
+Example 10:
+
+```{r}
+not_cancelled %>% 
+  group_by(year, month, day) %>% 
+  summarise(first = min(dep_time), last = max(dep_time))
+```
+
+Desc. for 10: Finds out what times the first and last flights left.
+
+Example 11:
+
+```{r}
+not_cancelled %>% 
+  group_by(year, month, day) %>% 
+  mutate(r = min_rank(desc(dep_time))) %>% 
+  filter(r %in% range(r))
+```
+
+Desc. for 11: Grouped by data, ranks on dep time.
+
+Example 12:
+
+```{r}
+not_cancelled %>% 
+  group_by(dest) %>% 
+  summarise(carriers = n_distinct(carrier)) %>% 
+  arrange(desc(carriers))
+```
+
+Desc. for 12: Using n_distinct to count the number of unique carriers at an airport.
+
+Example 13:
+
+```{r}
+not_cancelled %>% 
+  count(dest)
+```
+
+Desc for 13: Just a simple count.
+
+Example 14:
+
+```{r}
+not_cancelled %>% 
+  count(tailnum, wt = distance)
+```
+
+Desc. for 14: Usage of a wt to sum how far each plane has flown.
+
+Example 15:
+
+```{r}
+not_cancelled %>% 
+  group_by(year, month, day) %>% 
+  summarise(n_early = sum(dep_time < 500))
+
+not_cancelled %>% 
+  group_by(year, month, day) %>% 
+  summarise(hour_perc = mean(arr_delay > 60))
+```
+
+Desc. for 15: Uses < and > sums to determine which flights left before 5am and which were delayed by more than an hour.
+
+Example 16:
+
+```{r}
+daily <- group_by(flights, year, month, day)
+(per_day   <- summarise(daily, flights = n()))
+(per_month <- summarise(per_day, flights = sum(flights)))
+(per_year  <- summarise(per_month, flights = sum(flights)))
+```
+
+Desc. for 16: Using multiple summaries to "peel" layers off a dataset.
+
+Example 17:
+
+```{r}
+daily %>% 
+  ungroup() %>%             
+  summarise(flights = n())
+```
+
+Desc. for 17: Ungroups the variable.
+
 ### Section 5.7: Grouped mutates (and filters)
 
 Read and run all of the examples.
