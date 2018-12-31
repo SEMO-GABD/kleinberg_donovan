@@ -111,5 +111,100 @@ ggplot(data = tidy_darters2, mapping = aes(x = species, y = length)) +
 
 Stress and Cortisone 
 
+```{r}
+names <- c("capture_date", "day", "site", "urban_score", "cortF", "cortB", "sex", "smi", "tarsus", "mass", "basal_cort", "stress_cort")
+file_path <- "C:\\Misc. Files\\BI485 Folder\\Kleinberg_Donovan\\data"
+tidy_stress <- read_csv(file.path(file_path, "feathers.csv"), locale = locale(decimal_mark = ","), skip = 1, col_names = names)
+tidy_stress
+```
+
+Chunk creates mean tarsus
+
+```{r}
+mean_tarsus <- mean(tidy_stress[["tarsus"]])
+
+mean_tarsus
+```
+
+Chunk adds log_mass and log_tarsus
+
+```{r}
+tidy_stress <- mutate(tidy_stress, log_mass = log(mass), log_tarsus = log(tarsus))
+
+tidy_stress
+```
+
+Chunk runs the sma function along with summaries.
+
+```{r}
+major_axis <- sma(log_mass ~ log_tarsus, data = tidy_stress)
+summary(major_axis)
+```
+
+Chunk has coefficent.
+
+```{r}
+coef(major_axis)
+
+b <- 1.864889
+```
+
+Chunk adds new_smi
+
+```{r}
+tidy_stress <- mutate(tidy_stress, new_smi = mass * (mean_tarsus / tarsus) ^ b)
+tidy_stress
+```
+
+Discussion for new_smi: The new column now extends to 5 decimal places instead of only one decimal place in the old column.
+
+Chunk groups by site.
+
+```{r}
+tidy_stress %>%
+  group_by(site)
+```
+
+Chunk calculates mean and se
+
+```{r}
+mean_basal_cort <- mean(tidy_stress$basal_cort, na.rm = TRUE)
+mean_stress_cort <- mean(tidy_stress$stress_cort, na.rm = TRUE)
+sd_basal_cort <- sd(tidy_stress$basal_cort, na.rm = TRUE)
+sd_stress_cort <- sd(tidy_stress$stress_cort, na.rm = TRUE)
+se_basal_cort <- sd_basal_cort/(sqrt(43))
+se_stress_cort <- sd_stress_cort/(sqrt(43))
+```
+
+Plot 1
+
+```{r}
+ggplot(data = tidy_stress, mapping = aes(x = new_smi, y = site)) + 
+  geom_boxplot()
+```
+
+Discussion for plot 1: Yes, there are some very obvious differences between the sites. CEBC has the hights smi at over 25, Larochelle and Villefollet fall behind and Niort has the lowest ranging betewen 22 and 23.
+
+Plot 2
+
+```{r}
+min_basal <- mean_basal_cort - se_basal_cort
+max_basal <- mean_basal_cort + se_basal_cort
+
+ggplot(data = tidy_stress, mapping = aes(x = site, y = basal_cort)) + 
+  geom_point() +
+  geom_errorbar(ymin = min_basal, ymax = max_basal)
+```
+
+Plot 3
+
+```{r}
+min_stress <- mean_stress_cort - se_stress_cort
+max_stress <- mean_stress_cort + se_stress_cort
+
+ggplot(data = tidy_stress, mapping = aes(x = site, y = stress_cort)) + 
+  geom_point() +
+  geom_linerange(ymin = min_stress, ymax = max_stress)
+```
 
 
