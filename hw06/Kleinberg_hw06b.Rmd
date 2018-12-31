@@ -1,0 +1,115 @@
+---
+title: "HW 06 Part 2: Wrangle II"
+author: "Donovan Kleinberg"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output: html_notebook
+editor_options: 
+  chunk_output_type: inline
+---
+
+
+```{r}
+library(tidyverse)
+library(knitr)
+install.packages("smatr")
+library(smatr)
+```
+
+Darters
+
+```{r}
+file_path <- "C:\\Misc. Files\\BI485 Folder\\Kleinberg_Donovan\\data"
+darters <- read.delim(file.path(file_path, "darter.txt"))
+
+Column_start <- c(1, 4, 15, 16, 17, 18, 21, 25, 29, 33, 36, 39, 40)
+Column_stop <- c(3, 14, 15, 16, 17, 20, 24, 28, 32, 35, 38, 40, 41)
+names <- c("specimen id", "species", "riffle", "age", "sex", "length", "depth", "velocity", "temperature", "majsub", "minsub", "majtype", "mintype")
+tidy_darters <- read_fwf(file.path(file_path, "darter.txt"), fwf_positions(Column_start, Column_stop, col_names = names), skip = 15)
+
+tidy_darters2 <- tidy_darters %>%
+  filter(!species %in% c("zonale", "tetrazonum"))
+```
+
+```{r}
+tidy_darters2
+```
+
+Chunk adds total_substrate column.
+
+```{r}
+mutate(tidy_darters2, total_substrate = majsub + minsub)
+```
+
+All total substrate values are summed to 1.
+
+Chunk has assigmnets of names and change of length to millimeters.
+
+```{r}
+tidy_darters2$riffle[tidy_darters2$riffle==1] <- "Riffle_1"
+tidy_darters2$riffle[tidy_darters2$riffle==2] <- "Riffle_2"
+
+tidy_darters2$sex[tidy_darters2$sex=="f"] <- "Female"
+tidy_darters2$sex[tidy_darters2$sex=="m"] <- "Male"
+
+tidy_darters2 <- mutate(tidy_darters2, length = length * 10)
+
+tidy_darters2
+```
+
+Chunk groups and summarizes the required variables and plots them in a table.
+
+```{r}
+darter_means <- tidy_darters2 %>% group_by(species) %>%
+  summarise_at(.vars = vars(length, depth, velocity), 
+               .funs = c(mean = "mean")) 
+
+darter_means
+```
+
+Chunk represents darter plot 1.
+
+```{r}
+ggplot(data = tidy_darters2) +
+  stat_summary(
+    mapping = aes(x = species, y = length),
+    fun.ymin = min,
+    fun.ymax = max,
+    fun.y = median
+  ) +
+  geom_point(data = darter_means, mapping = aes(x = species, y = length_mean), shape = 15) + 
+  coord_flip() +
+    facet_wrap(~ riffle) +
+   ylab("Length (mm)") + xlab("Species")
+```
+
+Discussion for plot 1: Overall on riffle 2 the means seem to be much lower than on riffle wh1 for spectabile and caeruleum and about equal for blennioidies with a larger amount of large outliers. 
+
+Chunk represents darter plot 2.
+
+```{r}
+ggplot(data = tidy_darters2, mapping = aes(x = species, y = length)) + 
+  geom_point(color = "gray65") +
+  stat_summary(
+    fun.ymin = min,
+    fun.ymax = max,
+    fun.y = median,
+    geom = "point",
+    size = 2.2
+  ) +
+  stat_summary(
+    fun.ymin = min,
+    fun.ymax = max,
+    fun.y = mean,
+    size = 3,
+    geom = "point",
+    color = "maroon"
+  ) +
+  coord_flip() +
+  facet_wrap(~riffle) +
+  xlab("Species") + ylab("Length(mm)")
+```
+
+Stress and Cortisone 
+
+
+
