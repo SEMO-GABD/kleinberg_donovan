@@ -63,4 +63,63 @@ Chunk is stitching the plots together
 ```{r}
 plot_box + plot_cleveland + coord_flip()
 ```
+Figure 3
+
+Chunk begins work on figure 3 by creating all plots and assigning them to variables
+
+```{r}
+p_culmen <- sparrows %>% 
+  ggplot(aes(y = row_order)) +
+  geom_point(aes(x = culmen)) +
+  theme(axis.title.y=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank())
+
+p_culmen
+
+p_nalospi <- sparrows %>%
+  ggplot(aes(y = row_order)) +
+  geom_point(aes(x = nalospi)) +
+  theme(axis.title.y=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank())
+
+p_nalospi
+
+p_wt <- sparrows %>%
+  ggplot(aes(y = row_order)) +
+  geom_point(aes(x = wt)) +
+  theme(axis.title.y=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank())
+
+p_wingcrd <- sparrows %>%
+  ggplot(aes(y = row_order)) +
+  geom_point(aes(x = wingcrd)) +
+  theme(axis.title.y=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank())
+
+p_tarsus <- sparrows %>%
+  ggplot(aes(y = row_order)) +
+  geom_point(aes(x = tarsus)) +
+  theme(axis.title.y=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank())
+
+p_head <- sparrows %>%
+  ggplot(aes(y = row_order)) +
+  geom_point(aes(x = head)) +
+  theme(axis.title.y=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank())
+
+p_culmen + p_nalospi + p_wt + p_wingcrd + p_tarsus + p_head + plot_layout(nrow = 2)
+```
+
+Answer for question regarding figure 3: It would appear the the head, tarsus and nalospi are the variables with extreme outliers.
+
+Figure 5
+
+
 
