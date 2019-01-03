@@ -1,0 +1,66 @@
+---
+title: "HW 07 Part 1"
+author: "Donovan Kleinberg"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output: html_notebook
+editor_options: 
+  chunk_output_type: inline
+---
+
+```{r}
+library(tidyverse)
+install.packages("GGally")
+```
+
+```{r}
+library(GGally)
+install.packages("devtools")
+library(devtools)
+```
+
+```{r}
+library(patchwork)
+```
+
+Loading sparrows data
+
+```{r}
+file_path <- "C:\\Misc. Files\\BI485 Folder\\Kleinberg_Donovan\\data"
+sparrow_raw <- read_tsv(file.path(file_path, "sparrows.txt"), col_names = TRUE)
+sparrow_raw
+```
+
+Chunk adds rows needed.
+
+```{r}
+sparrows <- sparrow_raw %>%
+  mutate(box_group = "Sparrows",
+         row_order = 1:nrow(.))
+
+View(sparrows)
+```
+
+Chunk creates initial boxplot
+
+```{r}
+plot_box <- sparrows %>%
+  ggplot(aes(x = box_group, y = wingcrd)) +
+  geom_boxplot(width = 0.25) +
+  labs(x = NULL, y = "Wing Length (mm)")
+```
+
+Chunk adds cleveland plot
+
+```{r}
+plot_cleveland <- sparrows %>%
+  ggplot(aes(x = wingcrd, y = row_order)) +
+  geom_point() +
+  labs(x = "Wing Length (mm)", y = "Order of the data")
+```
+
+Chunk is stitching the plots together
+
+```{r}
+plot_box + plot_cleveland + coord_flip()
+```
+
