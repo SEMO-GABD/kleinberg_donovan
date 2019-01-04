@@ -361,3 +361,78 @@ Chunk uses patchwork to stitch the 4 clevelands together
 cleve_one + cleve_two + cleve_three + cleve_four + plot_layout(ncol = 2)
 ```
 
+Chunk has the 3 histograms
+
+```{r}
+### Histogram 1
+
+histo_one <- ggplot(data = crabs_wrang)+
+  geom_histogram(aes(x = pH),
+                 binwidth = .05,
+                 boundary = 0,
+                 closed = "right",
+                 color = "black")
+
+histo_one
+
+### Histogram 2
+
+histo_two <- ggplot(data = crabs_wrang)+
+  geom_histogram(aes(x = Phos),
+                 binwidth = .012,
+                 boundary = 0,
+                 closed = "right",
+                 color = "black")
+
+histo_two
+
+### Histogram 3
+
+histo_three <- ggplot(data = crabs_wrang)+
+  geom_histogram(aes(x = Width),
+                 binwidth = .2,
+                 boundary = 0,
+                 closed = "right",
+                 color = "black")
+
+histo_three
+```
+
+Chunk contains density plots
+
+```{r}
+### Density 1
+
+density_one <- ggplot(data = crabs_wrang) +
+  geom_density(aes(pH))
+
+density_one
+
+### Density 2
+
+density_two <- ggplot(data = crabs_wrang) +
+  geom_density(aes(Phos))
+
+density_two
+
+### Density 3
+
+density_three <- ggplot(data = crabs_wrang) +
+  geom_density(aes(Width))
+
+density_three
+```
+
+Chunk puts histograms and density plots side by side
+
+```{r}
+histo_one + histo_two + histo_three + density_one + density_two + density_three + plot_layout(ncol = 2, byrow = FALSE)
+```
+
+Chunk does ggpairs analysis
+
+```{r}
+crabs_wrang %>% ggpairs(columns = 1:14)
+```
+
+Discussion for ggpairs: A massive table that really doesn't fit. Even if the plot parameters were resized there's still a lot of data to parse through and look at. Looks like there are some negative trends with Cond and some elements such as Ca but most other things are just small or too muddled as this large of a scale.
