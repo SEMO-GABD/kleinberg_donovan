@@ -27,7 +27,7 @@ Loading sparrows data
 ```{r}
 file_path <- "C:\\Misc. Files\\BI485 Folder\\Kleinberg_Donovan\\data"
 sparrow_raw <- read_tsv(file.path(file_path, "sparrows.txt"), col_names = TRUE)
-sparrow_raw
+sparrow_raw 
 ```
 
 Chunk adds rows needed.
@@ -164,4 +164,200 @@ h1 + h2
 ```
 
 Figure 10
+
+Chunk does scatmat
+
+```{r}
+sparrows %>% ggscatmat(columns = 1:7)
+```
+
+Figure 11
+
+Chunk runs specified code
+
+```{r}
+month_order = c("May", "June", "July", "August", "September")
+sparrows %>% 
+  filter(Month %in% 5:9,
+         Sex != 0) %>% 
+  mutate(Month = case_when(
+    Month == 5 ~ "May",
+    Month == 6 ~ "June",
+    Month == 7 ~ "July",
+    Month == 8 ~ "August",
+    Month == 9 ~ "September"),
+    Month = factor(Month, levels = month_order, ordered = TRUE),
+    Sex = ifelse(Sex == 4, "Male", "Female")) %>% 
+  ggplot(aes(x = wingcrd,
+             y = wt)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  facet_grid(Sex ~ Month)
+```
+
+PART 2
+Crabs
+
+```{r}
+raw_crab <- read_csv(file.path(file_path, "aegla_crabs.csv"))
+
+raw_crab
+```
+
+Chunk selects and removes columns
+
+```{r}
+crabs_selected <- select(raw_crab, -Site, -AT, -WT, -Shrimp, -Aeglam, -AeglaFe, -AeglaFo)
+
+crabs_selected
+```
+
+Chunk removes rows with NA.
+
+```{r}
+crabsclean <- drop_na(crabs_selected)
+```
+
+Chunk adds dummy variable.
+
+```{r}
+crabs_wrang <- crabs_clean %>%
+   mutate(row_order = 1:nrow(.))
+
+crabs_wrang
+```
+
+Chunk creates variables to explore the data
+
+```{r}
+p_width <- crabs_wrang %>%
+  ggplot(aes(x =Width))+
+  geom_point(aes(y = row_order))
+
+p_depth <- crabs_wrang %>% 
+  ggplot(aes(x = Depth))+
+  geom_point(aes(y = row_order))
+
+p_flow <- crabs_wrang %>%
+  ggplot(aes(x = Flow))+
+  geom_point(aes(y = row_order))
+
+p_ph <- crabs_wrang %>%
+  ggplot(aes(x = pH))+
+  geom_point(aes(y = row_order))
+
+p_tds <- crabs_wrang %>%
+  ggplot(aes(x = TDS))+
+  geom_point(aes(y = row_order))
+
+p_cond<- crabs_wrang %>%
+  ggplot(aes(x = Cond))+
+  geom_point(aes(y = row_order))
+
+p_n <- crabs_wrang %>%
+  ggplot(aes(x = N))+
+  geom_point(aes(y = row_order))
+
+p_ni <- crabs_wrang %>%
+  ggplot(aes(x = Ni))+
+  geom_point(aes(y = row_order))
+
+p_nt <- crabs_wrang %>%
+  ggplot(aes(x = Nt))+
+  geom_point(aes(y = row_order))
+
+p_phos <- crabs_wrang %>%
+  ggplot(aes(x = Phos))+
+  geom_point(aes(y = row_order))
+
+p_mg <- crabs_wrang %>%
+  ggplot(aes(x = Mg))+
+  geom_point(aes(y = row_order))
+
+p_ca <- crabs_wrang %>%
+  ggplot(aes(x = Ca))+
+  geom_point(aes(y = row_order))
+
+p_crab <- crabs_wrang %>%
+  ggplot(aes(x = Crab))+
+  geom_point(aes(y = row_order))
+```
+
+Chunk contains variables plotted to determine extreme outliers. 
+
+```{r}
+p_width
+
+p_depth
+
+p_flow
+
+p_ph
+
+p_tds
+
+p_cond
+
+p_n
+
+p_ni
+
+p_nt
+
+p_phos
+
+p_mg
+
+p_ca
+
+p_crab
+```
+
+Discussion regarding outliers. I believe Depth and pH both have data that somewhat resembles outliers with depth having a single measurement 2 meters deeper than the others and pH having a measurement around row order 15 that is a little lower than any other. However, Phos has the one true outlier with a measurement near row 0 that is much greater, around 0.75 compared to the rest which hover near 0.06 - 0.12.
+
+Chunk has the 4 Cleveland plots.
+
+```{r}
+### Cleveland 1
+
+cleve_one <-  crabs_wrang %>%
+  ggplot(aes(x = Phos, y = row_order)) +
+  geom_point() +
+  labs(x = "Phosphorus", y = "Order of the data")
+
+cleve_one
+
+### Cleveland 2
+
+cleve_two <-  crabs_wrang %>%
+  ggplot(aes(x = Width, y = row_order)) +
+  geom_point() +
+  labs(x = "Width (cm)", y = "Order of the data")
+
+cleve_two
+
+### Cleveland 3
+
+cleve_three <-  crabs_wrang %>%
+  ggplot(aes(x = N, y = row_order)) +
+  geom_point() +
+  labs(x = "N", y = "Order of the data")
+
+cleve_three
+
+### Cleveland 4
+
+cleve_four <-  crabs_wrang %>%
+  ggplot(aes(x = TDS, y = row_order)) +
+  geom_point() +
+  labs(x = "TDS", y = "Order of the data")
+
+cleve_four
+```
+
+Chunk uses patchwork to stitch the 4 clevelands together
+
+```{r}
+cleve_one + cleve_two + cleve_three + cleve_four + plot_layout(ncol = 2)
+```
 
