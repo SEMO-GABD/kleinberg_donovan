@@ -7,14 +7,12 @@ editor_options:
   chunk_output_type: inline
 ---
 
-This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
-
-Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
-
 ```{r}
 library(tidyverse)
 library(lubridate)
 ```
+
+Part 1.
 
 This chunk has the approved copy paste
 
@@ -161,6 +159,65 @@ days_passed <- time_length(birth_dates_vector - birthday, "day")
 sort(days_passed, decreasing = FALSE)
 ```
 
+Part 2.
+
+Lake Ice Data.
+
+```{r}
+file_path <- "C:\\Misc. Files\\BI485 Folder\\Kleinberg_Donovan\\data"
+lake_unfiltered <- read_csv(file.path(file_path, "lake_ice.csv"))
+
+lake_unfiltered
+```
+
+Chunk filters Mendota
+
+```{r}
+lake_ice <- filter(lake_unfiltered, lakename == "LAKE MENDOTA")
+
+lake_ice
+```
+
+Chunk selects specified columns.
+
+```{r}
+lake_ice_sel <- select(lake_ice, iceon_year, iceon_month, iceon_day, iceoff_year, iceoff_month, iceoff_day)
+
+lake_ice_sel
+```
+
+Chunk gathers data into 2 columns.
+
+```{r}
+lake_ice_grouped <- lake_ice_sel %>%
+  select(iceon_year, iceon_month, iceon_day, iceoff_year, iceoff_month, iceoff_day)%>%
+  mutate(ice_on = make_date(iceon_year, iceon_month, iceon_day),
+         ice_off = make_date(iceoff_year, iceoff_month, iceoff_day))
+
+lake_ice_grouped
+```
+
+Chunk creates duration
+
+```{r}
+lake_ice_duration <- lake_ice_grouped %>%
+  mutate(duration = as.numeric(ice_off - ice_on))
+
+lake_ice_duration
+
+### It would appear the duration is listed in days.
+```
+
+Chunk has line plot
+
+```{r}
+ggplot(lake_ice_duration, aes(x = iceoff_year, y = duration), na.rm = TRUE) +
+  geom_line() +
+  coord_cartesian(xlim = c(1853, 2013)) +
+  labs(x = "Year", y = "Ice Cover Duration per Year (Days)")
+```
+
+Soil Data
 
 
 
