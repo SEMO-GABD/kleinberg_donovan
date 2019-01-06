@@ -1,0 +1,169 @@
+---
+title: "HW 08 Part 1"
+author: "Donovan Kleinberg"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output: html_notebook
+editor_options: 
+  chunk_output_type: inline
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+library(tidyverse)
+library(lubridate)
+```
+
+This chunk has the approved copy paste
+
+```{r}
+birth_date <- "2/10/1997"
+
+# Elizabeth Garret Anderson was the first female physician
+anderson <- "9 June 1836"
+
+# Mary Anning discovered the first complete Plesiosaur fossil, 
+# and other important Jurassic fossils
+anning <-  "1799/05/21"
+
+# Alice Augusta Ball was a chemist who developed the
+# first injectable treatment for leprosy.
+ball <- "July 24, 1892"
+
+# Sylvia Earle was the first chieft scientist at NOAA
+earle <- "August, 30 (1935)"
+
+# Rosalind Franklin used x-ray diffraction to 
+# discover DNA structure. Watson and Crick claimed credit.
+franklin <- "25th of July, 1920"
+
+# Ester Lederberg was the first to discover that viruses 
+# infect bacteria. Led to discovery of lambda bacteriophage
+lederberg <- "December 18, 1922"
+
+# Barbara McClintock discovered transposable elements (jumping genes),
+# and developed staining techniques to study chromosomes
+mcclintock <- "16061902"
+
+# Martin Luther King's birthday is coming up. Let's remember a dream
+mlk_birth <- "1/15/29"
+mlk_dream <- "1963 August 08"
+```
+
+Answer for 1.
+
+```{r}
+birthday <- mdy(birth_date)
+anderson <- dmy(anderson)
+anning <- ymd(anning)
+ball <- mdy(ball)
+earle <- mdy(earle)
+franklin <- dmy(franklin)
+lederberg <- mdy(lederberg)
+mcclintock <- dmy(mcclintock)
+mlk_birth <- mdy(mlk_birth)
+mlk_dream <- ymd(mlk_dream)
+
+birthday
+anderson
+anning
+ball
+earle
+franklin
+lederberg
+mcclintock
+mlk_birth
+mlk_dream
+```
+
+Answer for 2.
+
+```{r}
+mlk_birth <- update(mlk_birth, year = 1929)
+
+mlk_birth
+```
+
+Answer for 3.
+
+```{r}
+wday(birthday, label = TRUE, abbr = FALSE)
+
+# I was apparently born on a Monday, figured as much. 
+```
+
+Answer for 4.
+
+```{r}
+present <- now()
+
+year <- year(present)
+
+present_birthday <- update(birthday, year = year)
+
+present_birthday
+
+wday(present_birthday, label = TRUE, abbr = FALSE)
+```
+
+Answer for 5.
+
+```{r}
+future_birthday <- update(birthday, year = 2525)
+wday(future_birthday, label = TRUE, abbr = TRUE)
+
+justforfun <- future_birthday - birthday
+
+justforfun
+
+# That's a lot of days.
+
+future_age <- year(future_birthday) - year(birthday)
+
+future_age
+```
+
+Answer for 6.
+
+```{r}
+time_dif <- ball - anderson
+
+time_dif
+```
+
+Answer for 7.
+
+```{r}
+mlk_time_dif <- mlk_dream - mlk_birth
+mlk_dur <- as.duration(mlk_time_dif)
+
+mlk_dur
+```
+
+Answer for 8.
+
+```{r}
+birth_dates_vector <- c(birthday, anderson, anning, ball, earle, franklin, lederberg, mcclintock, mlk_birth)
+names(birth_dates_vector) <- c("Kleinberg", "Anderson", "Anning", "Ball", "Earle", "Franklin", "Lederberg", "McClintock", "King")
+
+birth_dates_vector
+
+## Leap Years 
+
+leap_year <- leap_year(birth_dates_vector)
+year(birth_dates_vector[leap_year])
+
+## Time Between My Birth and The Others
+
+days_passed <- time_length(birth_dates_vector - birthday, "day")
+sort(days_passed, decreasing = FALSE)
+```
+
+
+
+
+
+
+
