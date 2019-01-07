@@ -266,7 +266,7 @@ Chunk summarizes
 
 ```{r}
 soil_summ <- soil_date_added %>%
-  summarise(    Mean_CO2 = mean(Corrected_CO2_Level), StdECO2 = sd(Corrected_CO2_Level)/sqrt(n()))
+  summarise(Mean_CO2 = mean(Corrected_CO2_Level), StdECO2 = sd(Corrected_CO2_Level)/sqrt(n()))
 
 soil_summ
 ```
@@ -296,5 +296,46 @@ file_path <- "C:\\Misc. Files\\BI485 Folder\\Kleinberg_Donovan\\data"
 thebes_discharge_raw <- read_csv(file.path(file_path, "thebes_discharge.csv"))
 
 thebes_discharge_raw
+```
+
+Chunk tidies the data
+
+```{r}
+tidy_thebes <- thebes_discharge_raw %>%
+    gather("1988":"2018", key = "Year", value = "Discharge") %>%
+  group_by(Year, Month)
+
+tidy_thebes
+```
+
+Chunk divides discharge.
+
+```{r}
+thebes_div <- tidy_thebes %>%
+  mutate(Discharge = Discharge / 1000)
+
+thebes_div
+```
+
+Chunk summarizes
+
+```{r}
+thebes_summ <- summarise(thebes_div, Mean_Discharge = mean(Discharge, na.rm = FALSE))
+
+thebes_summ
+```
+
+Chunk adds event column
+
+```{r}
+thebes_col_added <- mutate(thebes_summ, Event = case_when(Year == "1993" ~ "Flood", Year == "2011" ~ "Flood", Year == "1988" ~ "Drought", Year == "2012" ~ "Drought", TRUE ~ "Normal"))
+
+thebes_col_added
+```
+
+Chunk creates smaller dataset
+
+```{r}
+
 ```
 
