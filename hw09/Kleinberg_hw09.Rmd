@@ -1,0 +1,61 @@
+---
+title: "HW 08 Part 1"
+author: "Donovan Kleinberg"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output: html_notebook
+editor_options: 
+  chunk_output_type: inline
+---
+
+
+```{r}
+library(tidyverse)
+library(stringr)
+install.packages("ggthemes")
+library(ggthemes)
+install.packages("RColorBrewer")
+install.packages("viridis")
+```
+
+Chunk imports data via read_lines
+
+```{r}
+
+beta_gliadin <- read_lines("C:\\Misc. Files\\BI485 Folder\\Kleinberg_Donovan\\data\\beta_gliadin.txt", skip = 1)
+
+beta_gliadin
+
+```
+
+Chunk removes whitespace and digits
+
+```{r}
+beta_gliadin_step_one <- beta_gliadin %>%
+  str_replace_all("\\s", "\\")
+
+beta_gliadin_step_two <- beta_gliadin_step_one %>%
+  str_replace_all("\\d", "\\")
+
+beta_gliadin_step_two
+```
+
+Chunk collapses strings
+
+```{r}
+beta_gliadin_coll <- beta_gliadin_step_two %>%
+  str_c(collapse = "")
+
+beta_gliadin_coll
+```
+
+Chunk converts to uppercase
+
+```{r}
+beta_gliadin_upper <- beta_gliadin_coll %>%
+  str_to_upper()
+
+beta_gliadin_upper
+
+str_length(beta_gliadin_upper)
+```
+
