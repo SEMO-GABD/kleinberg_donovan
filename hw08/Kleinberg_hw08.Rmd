@@ -219,8 +219,82 @@ ggplot(lake_ice_duration, aes(x = iceoff_year, y = duration), na.rm = TRUE) +
 
 Soil Data
 
+```{r}
+file_path <- "C:\\Misc. Files\\BI485 Folder\\Kleinberg_Donovan\\data"
+soil_raw <- read_tsv(file.path(file_path, "soil_co2.txt"))
 
+soil_raw
+```
 
+Chunk has date variable
 
+```{r}
+date_var <- make_date(year = 2006, day = 1, month = 1)
+```
 
+Chunk has renamed columns
+
+```{r}
+soil_renamed <- soil_raw %>%
+  rename(Day_number = `DayN[]`,
+         Day_sampled = `Datecode[]`,
+         Minutes = `Min[]`,
+         Vegetation = `Veg[]`,
+         Plot = `Plot[]`,
+         Group = `Group[]`,
+         Corrected_CO2_Level = `CorrCO2[]`,
+         Soil_temp = `SoilT[]`)
+
+### I'm assuming the soil temp is measured in kelvin which fits well, otherwise I don't know what it is. 
+
+soil_renamed
+```
+
+Chunk adds data and groups by year and month
+
+```{r}
+date_var_additional <- ymd(date_var)
+
+soil_date_added <- soil_renamed %>%
+  mutate(Date = date_var_additional + Day_number, Year = year(Date), Month = month(Date, label = TRUE, abbr = TRUE)) %>%
+  group_by(Year, Month)
+
+soil_date_added
+```
+
+Chunk summarizes 
+
+```{r}
+soil_summ <- soil_date_added %>%
+  summarise(    Mean_CO2 = mean(Corrected_CO2_Level), StdECO2 = sd(Corrected_CO2_Level)/sqrt(n()))
+
+soil_summ
+```
+
+Chunk has column chart
+
+```{r}
+ggplot(data = soil_summ, aes(x = Month, y = Mean_CO2)) +
+  geom_col() +
+  geom_errorbar(aes(ymin = Mean_CO2 - StdECO2, ymax = Mean_CO2 + StdECO2, width = 0.1)) +
+  facet_wrap(~Year, nrow = 2)
+```
+
+Chunk has point plot
+
+```{r}
+ggplot(data = soil_summ, aes(x = Month, y = Mean_CO2)) +
+  geom_point() +
+  geom_linerange(aes(ymin = Mean_CO2 - StdECO2, ymax = Mean_CO2 + StdECO2)) +
+  facet_wrap(~Year, nrow = 2)
+```
+
+Mississippi River Data
+
+```{r}
+file_path <- "C:\\Misc. Files\\BI485 Folder\\Kleinberg_Donovan\\data"
+thebes_discharge_raw <- read_csv(file.path(file_path, "thebes_discharge.csv"))
+
+thebes_discharge_raw
+```
 
