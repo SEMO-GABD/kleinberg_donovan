@@ -336,6 +336,34 @@ thebes_col_added
 Chunk creates smaller dataset
 
 ```{r}
+nonnormal_years <- thebes_col_added %>%
+  filter(Event %in% c("Flood", "Drought"))
 
+nonnormal_years
 ```
 
+Chunk is for initial plot
+
+```{r}
+initial_plot <- 
+  ggplot() +
+  geom_line(thebes_col_added, mapping = aes(x = Month, y = Mean_Discharge, group = Year), size = 0.3, color = "gray70") +
+  labs(x = NULL, y = "Discharge (cf/s, thousands)")
+
+
+initial_plot
+
+### Couldn't get the months to display as names and not numerics. The plot still works, but it does look a wee bit off. 
+```
+
+Chunk contains second plot
+
+```{r}
+second_plot <- 
+  ggplot() +
+  geom_line(thebes_col_added, mapping = aes(x = Month, y = Mean_Discharge, group = Year), size = 0.3, color = "gray70") +
+  labs(x = NULL, y = "Discharge (cf/s, thousands)") +
+   geom_line(data = nonnormal_years,  aes(x = Month, y = Mean_Discharge, group = Year, color = Event))
+
+second_plot
+```
