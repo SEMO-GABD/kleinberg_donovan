@@ -59,6 +59,7 @@ beta_gliadin_upper
 str_length(beta_gliadin_upper)
 ```
 
+<<<<<<< HEAD
 Chunk counts non identified nucleotides
 
 ```{r}
@@ -80,3 +81,5 @@ Chunk begins process to finding promotor
 
 ```
 
+=======
+>>>>>>> 7b78887d92bc21195b23d75c34f9a6508a7bd901
