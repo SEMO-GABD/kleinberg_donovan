@@ -114,6 +114,79 @@ promoter
 str_count(promoter)
 ```
 
+Part 2
+
+Ants
+
+```{r}
+ants <- read.csv("C:\\Misc. Files\\BI485 Folder\\Kleinberg_Donovan\\data\\ants.csv")
+
+ants
+```
+
+Chunk tidies the ant data
+
+```{r}
+tidy_ants <- ants %>% 
+  select(-c(seas.code)) %>%
+  gather(key = species, value = abundance, matches("\\w\\.\\w", ignore.case = FALSE))
+
+tidy_ants
+```
+
+Chunk has the hard part
+
+```{r}
+ants_post_hard <- tidy_ants %>%
+  mutate(species = str_replace(species, pattern = "(^[A-Z]*\\w{3})\\w{3,}\\.(\\w{4})\\w{2,}", replacement = "\\1\\2"))
+
+ants_post_hard
+```
+
+Chunk uses mutate to turn 2010/2011 into ordered factors
+
+```{r}
+ants_final_mutate <- ants_post_hard %>%
+  mutate(year = factor(year, levels = c("2010", "2011"), ordered = TRUE))
+
+ants_final_mutate
+```
+
+Chunk groups and summarizes
+
+```{r}
+ants_grouped <- ants_final_mutate %>%
+  group_by(year, species)
+
+ants_grouped
+
+ants_summ <- ants_grouped %>%
+  summarize(Total_Abundance = sum(abundance))
+
+ants_summ
+```
+
+Chunk plots ants data
+
+```{r}
+ggplot(data = ants_summ, mapping = aes(x = reorder(species, Total_Abundance), y = Total_Abundance, group = species)) +
+  coord_flip() +
+  geom_line() +
+  geom_point(aes(shape = year), size = 2) +
+  labs(x = NULL, y = "Total Abundance") +
+  theme_minimal()
+```
+
+Part 3
+
+Flowers
+
+
+
+
+
+
+
 
 
 
