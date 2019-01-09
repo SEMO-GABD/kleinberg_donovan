@@ -78,8 +78,42 @@ str_count(beta_gliadin_upper, "TAA|TGA")
 Chunk begins process to finding promotor
 
 ```{r}
+caat_box <- "CCAAT"
+tata_box <- "CTATAA"
+
+str_count(beta_gliadin_upper, caat_box)
+str_count(beta_gliadin_upper, tata_box)
 
 ```
 
-=======
->>>>>>> 7b78887d92bc21195b23d75c34f9a6508a7bd901
+Chunk searchs for caat_seq and tata_seq.
+
+```{r}
+caat_seq <- "CCAAT.{100,150}ATG"
+str_count(beta_gliadin_upper, caat_seq)
+
+tata_seq <- "CTATAA.{50,100}ATG"
+str_count(beta_gliadin_upper, tata_seq)
+```
+
+Chunk extracts caat sequences
+
+```{r}
+caat_seqs_all <- str_extract_all(beta_gliadin_upper, caat_seq, simplify = TRUE)
+
+str_count(caat_seqs_all)
+```
+
+Chunk finds and prints promoter region
+
+```{r}
+str_which(caat_seqs_all, tata_box)
+promoter <- str_subset(caat_seqs_all, tata_box)
+
+promoter
+str_count(promoter)
+```
+
+
+
+
