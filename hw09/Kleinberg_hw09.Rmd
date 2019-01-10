@@ -264,5 +264,58 @@ pollinators_sep <- pollinators %>%
 pollinators_sep
 ```
 
+Chunk joins datasets
+
+```{r}
+phlox <- inner_join(flower_summ, pollinators_sep, by = c("Genus", "Species"))
+
+phlox
+```
+
+Chunk does first plot via syndrome
+
+```{r}
+ggplot(data = phlox, mapping = aes(x = Mean_length, y = Mean_width)) +
+  geom_point(aes(color = Syndrome))
+```
+
+Chunk replaces bees and beetles
+
+```{r}
+phlox_mut <- phlox %>% 
+  mutate(Syndrome = str_replace(Syndrome, "bee$", "bees"), Syndrome = str_replace(Syndrome, "beetle$", "beetles"))
+
+ggplot(data = phlox_mut, mapping = aes(x = Mean_length, y = Mean_width)) +
+  geom_point(aes(color = Syndrome))
+
+```
+
+Chunk condenses beetles and flies
+
+```{r}
+phlox_other_insects <- phlox_mut %>% 
+  mutate(Syndrome = str_replace(Syndrome, "beetles|flies", "other insects"))
+
+ggplot(data = phlox_other_insects, mapping = aes(x = Mean_length, y = Mean_width)) +
+  geom_point(aes(color = Syndrome))
+```
+
+Chunk groups mammals and birds
+
+```{r}
+phlox_full_mut <- phlox_other_insects %>% 
+  mutate(Syndrome_Group = case_when(Syndrome == "hummingbird" ~ "Bird", Syndrome == "bat" ~ "Mammal", Syndrome == "autogamous" ~ "Autogamous", TRUE ~ "Insect"))
+
+phlox_full_mut
+
+ggplot(data = phlox_full_mut, mapping = aes(x = Mean_length, y = Mean_width)) +
+  geom_point(aes(color = Syndrome_Group))
+```
+
+Chunk begins improving the plots
+
+```{r}
+
+```
 
 
