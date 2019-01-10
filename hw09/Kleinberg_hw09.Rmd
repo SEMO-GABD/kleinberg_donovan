@@ -181,12 +181,88 @@ Part 3
 
 Flowers
 
+```{r}
+flower_size <- read.csv("C:\\Misc. Files\\BI485 Folder\\Kleinberg_Donovan\\data\\flower_size.csv")
 
+flower_size
+```
 
+Chunk filters out NA
 
+```{r}
+flower_size_filtered <- flower_size %>%
+  filter(!is.na(Flower.number))
 
+flower_size_filtered
+```
 
+Chunk selects
 
+```{r}
+flower_sel <- flower_size_filtered %>%
+  select(Species = Species, Cor_length = Corolla.length..cm., Throat_width = Corolla.width.throat..cm.)
+
+flower_sel
+```
+
+Chunk seperates
+
+```{r}
+flower_sep <- flower_sel %>%
+  separate(Species, into = c("Genus", "Species"))
+
+flower_sep
+```
+
+Chunk groups and summarizes
+
+```{r}
+flower_grouped <- flower_sep %>%
+  group_by(Genus, Species)
+
+flower_grouped
+
+flower_summ <- flower_grouped %>%
+  summarise(Mean_length = mean(Cor_length), Max_length = max(Cor_length), Mean_width = mean(Throat_width), Max_width = max(Throat_width))
+
+flower_summ
+```
+
+Chunk imports second data set
+
+```{r}
+pollinators_raw <- read.csv("C:\\Misc. Files\\BI485 Folder\\Kleinberg_Donovan\\data\\flower_pollinators.csv", na.strings = c("", "NA"))
+
+pollinators_raw
+
+### Had to add na.strings since otherwise the missing data would be blank and not filter out via the filter command.
+```
+
+Chunk uses select, filter and seperate.
+
+```{r}
+pollinators_sel <- pollinators_raw %>%  
+  select(-c(Color, starts_with("Source")))
+
+pollinators_sel
+
+pollinators_fil <- pollinators_sel %>%
+  filter(!is.na(Pollinator))
+
+pollinators_fil
+  
+pollinators <- pollinators_fil %>%
+  separate(ï..Species, into = c("Genus", "Species"))
+
+pollinators
+```
+
+```{r}
+pollinators_sep <- pollinators %>%
+  separate(Pollinator, into = "Syndrome", sep = " |, ")
+
+pollinators_sep
+```
 
 
 
