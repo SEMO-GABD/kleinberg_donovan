@@ -321,10 +321,20 @@ Chunk begins improving the plots
 
 phlox_full_mut %>%
   ggplot() +
-  geom_point(aes(x = Max_length, y = Max_width, color = Syndrome_Group)) +
+  geom_point(aes(x = Mean_length, y = Mean_width, color = Syndrome_Group)) +
   scale_color_brewer(type = "qual", palette = "Dark2")
 
 ```
+
+```{r}
+### Plot inferno
+
+phlox_full_mut %>%
+  ggplot() +
+  geom_point(aes(x = Mean_length, y = Mean_width, color = Syndrome_Group)) +
+  scale_color_viridis_d(option = "inferno")
+```
+
 
 ```{r}
 ### Plot 2
@@ -333,7 +343,7 @@ semo_palette <- c("#C8102E", "#DBE245", "#71C5E8", "#B07C57")
 
 phlox_full_mut %>%
   ggplot() +
-  geom_point(aes(x = Max_length, y = Max_width, shape = Syndrome_Group, fill = Syndrome_Group)) +
+  geom_point(aes(x = Mean_length, y = Mean_width, shape = Syndrome_Group, fill = Syndrome_Group)) +
    scale_shape_manual(values = c(22:25)) +
   scale_fill_manual(values = semo_palette)
 
@@ -351,4 +361,49 @@ phlox_full_mut %>%
   scale_fill_brewer(palette = "Dark2") +
   theme(axis.text = element_text(size = 10), axis.title = element_text(size = 12))
 ```
+
+Part 4
+
+```{r}
+### Plot 1
+
+  ggplot(data = phlox_full_mut, aes(x = Max_length, y = Max_width)) +
+  geom_point(aes(color = Syndrome_Group)) +
+  theme_economist_white() +
+  scale_color_viridis_d(option = "plasma")
+
+```
+
+```{r}
+### Plot 2
+semo_palette_metallic <- c("#5C6670", "#7A6855", "#B07C57", "#A4A9AD")
+
+  ggplot(data = phlox_full_mut, aes(x = Max_length, y = Max_width)) +
+  geom_point(aes(shape = Syndrome_Group, fill = Syndrome_Group)) +
+   scale_shape_manual(values = c(22:25)) +
+  theme_foundation() +
+  scale_fill_manual(values = semo_palette_metallic)
+
+```
+
+```{r}
+### Plot 3
+
+  ggplot(data = phlox_full_mut, aes(x = Max_length, y = Max_width)) +
+  geom_point(aes(color = Syndrome_Group)) +
+  theme_solarized() +
+    scale_color_brewer(type = "qual", palette = "Pastel2")
+
+```
+
+```{r}
+### Plot 4
+
+  ggplot(data = phlox_full_mut, aes(x = Max_length, y = Max_width)) +
+  geom_point(aes(color = Syndrome_Group)) +
+  theme_void() +
+    scale_color_brewer(type = "qual", palette = "Accent")
+
+```
+
 
