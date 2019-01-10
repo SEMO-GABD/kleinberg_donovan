@@ -315,7 +315,40 @@ ggplot(data = phlox_full_mut, mapping = aes(x = Mean_length, y = Mean_width)) +
 Chunk begins improving the plots
 
 ```{r}
+### Not a 100 percent sure if you want us to run these examples but since there is a push after this section I shall assume so.
+
+### Plot 1
+
+phlox_full_mut %>%
+  ggplot() +
+  geom_point(aes(x = Max_length, y = Max_width, color = Syndrome_Group)) +
+  scale_color_brewer(type = "qual", palette = "Dark2")
 
 ```
 
+```{r}
+### Plot 2
+
+semo_palette <- c("#C8102E", "#DBE245", "#71C5E8", "#B07C57")
+
+phlox_full_mut %>%
+  ggplot() +
+  geom_point(aes(x = Max_length, y = Max_width, shape = Syndrome_Group, fill = Syndrome_Group)) +
+   scale_shape_manual(values = c(22:25)) +
+  scale_fill_manual(values = semo_palette)
+
+```
+
+```{r}
+### Plot 3
+phlox_full_mut %>% 
+  ggplot() +
+  geom_point(aes(x = Mean_length, y = Mean_width, shape = Syndrome_Group, fill = Syndrome_Group),
+             size = 2) +
+  labs(shape = "Syndrome", fill = "Syndrome", x = "Mean Length (cm)", y = "Mean Width (cm)") +
+  theme_tufte() +
+  scale_shape_manual(values = c(22:25)) +
+  scale_fill_brewer(palette = "Dark2") +
+  theme(axis.text = element_text(size = 10), axis.title = element_text(size = 12))
+```
 
