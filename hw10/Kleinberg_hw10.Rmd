@@ -228,9 +228,143 @@ base + geom_point(data = both_species,
 
 Part 3
 
+Converts data and sets limits
 
+```{r}
+min_long <- -170
+max_long <- 164
+min_lat  <- -42
+max_lat  <- -8
 
+earthquakes <- quakes %>% 
+   mutate(depth = depth * 3280.84)
+```
 
+Gets NOAA data
 
+```{r}
+fiji <- getNOAA.bathy(lon1 = min_long,
+                      lon2 = max_long,
+                      lat1 = min_lat,
+                      lat2 = max_lat,
+                      antimeridian = TRUE,
+                      keep = TRUE)
+```
 
+Autoplot
+
+```{r}
+autoplot.bathy(fiji, 
+         geom = c("raster", "contour"),
+         size = 0.1,
+         na.rm = TRUE)
+```
+
+Second example
+
+```{r}
+autoplot(fiji, 
+         geom = c("raster","contour"),
+         size = 0.1,
+         na.rm = TRUE) +
+  scale_fill_gradient2(low = "dodgerblue4", 
+                       mid = "gainsboro", 
+                       high = "darkgreen",
+                       name = "Depth (ft)") +
+  labs(x = "Longitude",
+       y = "Latitude") +
+  theme(axis.title.y = element_text(angle = 0, 
+                                    vjust = 0.5))
+```
+
+Creates base map and plots with quakes
+
+```{r}
+base_map <- autoplot(fiji, 
+                     geom = c("raster","contour"),
+                     size = 0.1,
+                     na.rm = TRUE) +
+  scale_fill_gradient2(low = "dodgerblue4", 
+                       mid = "gainsboro", 
+                       high = "darkgreen",
+                       name = "Depth (ft)") +
+  labs(x = "Longitude",
+       y = "Latitude") +
+  theme(axis.title.y = element_text(angle = 0, 
+                                    vjust = 0.5))
+
+base_map + 
+  geom_point(data = earthquakes,
+             aes(x = long,
+                 y = lat))
+```
+
+Altered alpha
+
+```{r}
+base_map + 
+  geom_point(data = earthquakes,
+             aes(x = long,
+                 y = lat,
+                 size = mag),
+             alpha = 0.4)
+```
+
+Second adjusted alpha layer
+
+```{r}
+base_map + 
+  geom_point(data = earthquakes,
+             aes(x = long,
+                 y = lat,
+                 size = mag),
+             alpha = 0.4) +
+  scale_size_continuous(range = c(0.5,3), name = "Magnitude")
+```
+
+Setting global variables
+
+```{r}
+min_long <- -90
+max_long <- -58
+min_lat <- 8
+max_lat <- 28
+```
+
+Loads blennies
+
+```{r}
+blennies <- bigfoot <- read.csv("C:\\Misc. Files\\BI485 Folder\\Kleinberg_Donovan\\data\\blennies.csv")
+```
+
+Loads carib
+
+```{r}
+carib_sea <- getNOAA.bathy(lon1 = min_long,
+                      lon2 = max_long,
+                      lat1 = min_lat,
+                      lat2 = max_lat,
+                      antimeridian = FALSE,
+                      keep = TRUE)
+```
+
+Creating second base map
+
+```{r}
+base_map_two <- autoplot(carib_sea, geom = c("raster","contour"), size = 0.1, na.rm = TRUE) +
+  scale_fill_etopo(guide = FALSE) +
+  labs(x = "Longitude", y = "Latitude") +
+  theme(axis.title.y = element_text(angle = 0, vjust = 0.5))
+
+base_map_two
+```
+
+ADD THE BLENNIES!!!!!
+
+```{r}
+base_map_two + geom_point(data = blennies, aes(x = long, y = lat, shape = name), fill = "orange", size = 3.3)+
+  scale_shape_manual(values = c(21:23)) +
+  labs(shape = "Species") +
+  theme(legend.position = "bottom", legend.text = element_text(face = "italic"))
+```
 
