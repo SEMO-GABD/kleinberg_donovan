@@ -95,6 +95,45 @@ Patchwork
 us_map + mo_map + plot_layout(ncol = 2, widths = c(1.5,1))
 ```
 
+My Outline Maps
+
+USA
+
+```{r}
+mo_stlouis <- subset(missouri, subregion %in% c("st louis"))
+
+mo_dk <- subset(missouri, subregion %in% c("dent", "knox"))
+
+usa_dk <- ggplot() +
+  geom_polygon(data = usa, aes(x=long, y = lat, group = group), fill = NA, color = "black") +
+    geom_polygon(data = us_missouri, aes(x = long, y = lat, group = group)) +
+  theme_map() +
+  coord_fixed(1.3)
+
+
+```
+
+Missouri
+
+```{r}
+mo_dk_final <- ggplot() + 
+  geom_polygon(data = missouri, aes(x=long, y = lat, group = group), fill = NA, color = "black") + 
+  geom_polygon(data = mo_stlouis, aes(x = long, y = lat, group = group), color = "black") +
+  geom_polygon(data = mo_dk, aes(x = long, y = lat, group = group), fill = "gray") +
+  theme_map() +
+  coord_fixed(1.3)
+```
+
+The two combined
+
+```{r}
+usa_dk + mo_dk_final + plot_layout(ncol = 2, widths =  c(1.5, 1))
+```
+
+Part 2
+
+
+
 
 
 
